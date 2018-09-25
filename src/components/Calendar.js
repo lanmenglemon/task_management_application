@@ -11,6 +11,13 @@ import Popup from '../components/Popup';
 
 class Calendar extends Component {
     
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: 'aa'
+        }
+    }
+
     componentDidMount() {
         this.props.fetchTasks();
 
@@ -26,10 +33,12 @@ class Calendar extends Component {
             events: this.props.events,
             editable: true,
             selectable: true,
-            dayClick: function(date, jsEvent, view) {
+            dayClick: (date, jsEvent, view) => {
                 document.getElementById('myModal').style.display = "block";
                 // alert('Clicked on: ' + date.format());
-                
+                this.setState({date: moment(date).toString()}, function() {
+                    console.log(this.state.date);
+                });
                 // alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
             
                 // alert('Current view: ' + view.name);
@@ -44,7 +53,7 @@ class Calendar extends Component {
     render() {
         return(
             <div id='calendar'>
-                <Popup />
+                <Popup date={this.state.date} />
             </div>
         )
     }
